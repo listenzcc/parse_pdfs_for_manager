@@ -1,0 +1,815 @@
+220
+
+IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 63, NO. 1, JANUARY 2016
+
+Single-Trial Detection With
+Magnetoencephalography During a Dual-Rapid
+Serial Visual Presentation Task
+
+Hubert Cecotti, Member, IEEE
+
+Abstract — Goal: The detection of brain responses corresponding
+to the presentation of a particular class of images is a challenge in
+brain–machine interface. Current systems based on the detection
+of brain responses during rapid serial visual presentation (RSVP)
+tasks possess advantages for both healthy and disabled people,
+as they are gaze independent and can offer a high throughput.
+Methods: We propose a novel paradigm based on a dual-RSVP
+task that assumes a low target probability. Two streams of images
+are presented simultaneously on the screen, the second stream is
+identical to the ﬁrst one, but delayed in time. Participants were
+asked to detect images containing a person. They follow the ﬁrst
+stream until they see a target image, then change their attention
+to the second stream until the target image reappears, ﬁnally they
+change their attention back to the ﬁrst stream. Results: The per-
+formance of single-trial detection was evaluated on both streams
+and their combination of the decisions with signal recorded with
+magnetoencephalography (MEG) during the dual-RSVP task. We
+compare classi ﬁcation performance across different sets of chan-
+nels (magnetometers, gradiometers) with a BLDA classi ﬁer with
+inputs obtained after spatial ﬁltering. Conclusion: The results sug-
+gest that single-trial detection can be obtained with an area under
+the ROC curve superior to 0.95, and that an almost perfect accu-
+racy can be obtained with some subjects thanks to the combination
+of the decisions from two trials, without doubling the duration of
+the experiment. Signiﬁcance: The present results show that a reli-
+able accuracy can be obtained with the MEG for target detection
+during a dual-RSVP task.
+
+Index Terms —Event-related ﬁelds, magnetoencephalography
+(MEG), rapid serial visual presentation, single-trial detection.
+
+I. INTRODUCTION
+
+B RAIN–MACHINE interface (BMI) systems have been
+mainly used as a new means of communication for severely
+disabled people, and for rehabilitation [1]. BMIs based on the
+detection of event-related potentials (ERPs) typically require
+subjects to pay attention to a speciﬁc sequence of stimuli in
+order to produce a robust and detectable neural response [2].
+Among the ERP-based BMI paradigms, rapid serial visual pre-
+sentation (RSVP) tasks have attracted the attention of the BMI
+community for several reasons [3], [4]. In the RSVP paradigm, a
+rapid sequence of images are presented sequentially to subjects
+
+Manuscript received May 15, 2015; revised September 1, 2015; accepted
+September 7, 2015. Date of publication September 7, 2015; date of current
+version December 17, 2015. The work was supported by NI Functional Brain
+Mapping Facility Project (1303/101154803) funded by InvestNI and Ulster
+University.
+H. Cecotti is with the School of Computing and Intelligent Systems, Ul-
+ster University, Londonderry BT52 1SA, Northern Ireland, U.K. (e-mail:
+h.cecotti@ulster.ac.uk).
+Digital Object Identi ﬁer 10.1109/TBME.2015.2478695
+
+in the same location on a screen, which makes this type of BMI
+gaze independent [5], [6]. The stream of images contains dif-
+ferent types of visual stimuli, which can be classiﬁed as targets
+or nontargets. RSVP tasks propose a relevant alternative for the
+triage of images by sorting the images in relation to a score
+based on the characteristics of the evoked responses, allowing
+a high-information throughput. This task has been successfully
+used during visual search (e.g., the triage of satellite images [7]–
+[11], face recognition tasks [12]). In this paper, we address the
+problem of target-detection systems based on the detection of
+ERPs during RSVP tasks. Because a target-detection system
+can be used online with novel incoming stimuli presented in
+real time, it is not possible to repeat the presentation of the vi-
+sual stimuli in order to combine the decision scores from their
+corresponding brain responses. For this reason, single-trial de-
+tection has to be used for target detection where it is not possible
+to determine if an image belongs to a target or a nontarget class
+by considering multiple presentations of the same image. Yet, if
+images can be presented several times, it is possible to combine
+the decision outputs from the different presentations like in the
+P300 speller [13]. Thus, the real-time constraint implies the ne-
+cessity to ﬁnd new strategies for increasing the performance and
+reliability of target-detection systems based on the detection of
+brain-evoked responses.
+Magnetoencephalography (MEG) is a powerful brain imag-
+ing technique to enhance presurgical planning by noninvasively
+localizing relevant brain regions, and research distributions of
+brain activity related to cognitive function. MEG signal has
+several main advantages over electroencephalography (EEG)
+signals [14]. First, it has a better spatial discrimination of neural
+contributions because the signal is not as degraded by the het-
+erogeneity in conductivity within head tissue as EEG signals.
+Magnetic ﬁelds are less distorted by tissues of different conduc-
+tivity compared to the electric potentials measured with EEG.
+Second, the time to prepare a subject is signiﬁcantly reduced as
+there is no need to use gel to obtain a low impedance between
+the scalp and the electrodes. It implies an improvement of the
+subject’s comfort as there is no direct contact between the sen-
+sors measuring brain activity and the skin. Finally, it is easier to
+interpret data in MEG because there is no reference (i.e., mea-
+sures are absolute). MEG is therefore well suited for studying
+the human brain dynamics, and the different brain areas that
+are involved in various cognitive tasks related to memory and
+attention [15]. The main applications of MEG are currently pri-
+marily related to clinical studies and neuroscience research due
+to the cost of the machine and signal recordings. However, other
+
+0018-9294 © 2015 IEEE. Personal use is permitted, but republication/redistribution requires IEEE permission.
+See http://www.ieee.org/publications standards/publications/rights/index.html for more information.
+
+CECOTTI: SINGLE-TRIAL DETECTION WITH MEG DURING A DUAL-RSVP TASK
+
+221
+
+applications are possible in relation to what has been achieved in
+the past decades with EEG in BMI. Like MEG, EEG has an ex-
+cellent temporal resolution (millisecond, e.g., 1 kHz), but MEG
+has a more precise spatial discriminant power by mapping the
+magnetic sources in the brain, and it can be expected to obtain a
+robust classiﬁer performance with MEG signals. The neuromag-
+netic ﬁelds of the brain are small (in the order of 50–500 fT), and
+they correspond to the resulting current of a synaptic input to a
+neuron. In order to detect the magnetic ﬁeld outside the skull, it
+is necessary that a large population of neurons receives synaptic
+inputs within a short time window. MEG is based on supercon-
+ducting quantum interference device (SQUID) technology that
+was originally introduced in the 1960s. Current MEG systems
+contain a large number of SQUIDs connected to sensor coils in
+a helmet-like conﬁguration. The MEG system has to be placed
+in a magnetic shielded room due to the environmental magnetic
+noise that is higher than the magnetic ﬁelds produced by the
+subject’s brain activity.
+Brain decoding is an active research ﬁeld with converging
+interests with BMI, as it aims at decoding the information in the
+brain [16]–[18]. Several decoding tasks can be achieved: clas-
+siﬁcation, identiﬁcation, and reconstruction. Let us consider a
+set of N different stimuli {x1 , . . . , xN } with their respective la-
+bels coded as a number {y1 , . . . , yN }, and si the recorded brain
+activity corresponding to the presentation of xi , 1 ≤ i ≤ N .
+Classiﬁcation tasks aim at determining a function Fc , such that
+Fc (si ) = yi . The function Fd corresponding to an identiﬁca-
+tion task can be deﬁned by Fd (si , {x1 , . . . , xk }) = xi , where
+{x1 , . . . , xk } is a subset of stimuli, with k ≤ N . In reconstruc-
+tion, the purpose is to ﬁnd a function Fr , such that Fr (si ) = xi .
+Such a task includes visual image reconstruction from human
+brain activity [19]. In this paper, we consider binary classiﬁca-
+tion tasks for BMI.
+The stability of the spatial distribution, the amplitude, and the
+latency of a brain evoked response are key features that allow
+robust single-trial detection. It is possible to reliably detect brain
+evoked responses thanks to signal processing methods that can
+denoise the signal, extract features invariant to task irrelevant
+ongoing brain activity, and enhance its main discriminant char-
+acteristics. This principle has been used in BMI to detect spe-
+ciﬁc ERPs [20]. Several research groups have developed BMI
+virtual keyboards that are based on the detection of the ERP
+components such as the P300 [13] and the N200 [21]. Despite
+the stability of these ERP components, accurate and reliable
+detection of the speciﬁc neural responses often requires aver-
+aging multiple responses. For instance, it is common that about
+ten trials are averaged in BMI virtual keyboards to optimize
+the accuracy [22]. The requirement of several trials is mainly
+due to the noise in the signal such as eye movements, muscular
+contractions, and ongoing brain activity that is unrelated to the
+experimental task. Although averaging the signal from multi-
+ple brain responses can increase the efﬁciency of detection, it
+also decreases the information transfer rate (ITR) of the BMI due
+to the increase of time to acquire additional trials that are needed
+to reach a robust decision [23]. Moreover, there exist tasks where
+it is not possible to repeat the visual stimuli: they appear only
+
+one time [24]. It happens when a subject watches a video; each
+frame of the video is presented only one time.
+In this study, we consider two dependent RSVP tasks (the
+second task being the same as the ﬁrst one, but delayed in time),
+allowing to consider two trials for the detection while keep-
+ing a continuous presentation of new images. This strategy has
+two main advantages. First, it considers two repetitions of a
+stimulus while always presenting new stimuli to the observer.
+Second, it does not double the duration of the experiment. Work-
+ing with high quality signals is critical for high performance in
+single-trial classiﬁcation. However, the signal will still contain
+disturbances from physiological origins, and it will require ad-
+vanced denoising techniques, particularly for source localization
+purpose [25], [26]. The primary purpose of this study is to in-
+vestigate the performance of a single-trial detection, with the
+addition of spatial ﬁltering, during a difﬁcult RSVP task with
+MEG, and to what extent the proposed dual-RSVP task can
+increase the performance of target detection. Parra et al. [27]
+show the relevance of linear analysis methods for discriminating
+between different events in single trial. Other efﬁcient strategies
+without spatial ﬁltering have been proposed for EEG single-trial
+detection that can be also used for MEG. The methods in the
+literature include linear classiﬁers (Fisher’s linear discriminant
+analysis), Bayesian linear discriminant analysis [28], [29], sup-
+port vector machines [30], and artiﬁcial neural networks [31],
+[32]. The remainder of the paper is organized as follows. First,
+we present the experimental protocol. Second, we describe the
+signal processing and classiﬁcation methods. Finally, the results
+are presented and discussed in the last two sections.
+
+II. METHODS
+
+A. Subjects
+25.2 ± 5.6, nine males, eight right handed). All participants pro-
+Ten healthy volunteer subjects participated in the study (age =
+vided written informed consent, reported normal or corrected-
+to-normal vision, and no history of neurological problems. Only
+one subject had prior experience with RSVP tasks. The ex-
+perimental protocol was reviewed by the Faculty Ethics Filter
+Committee of Ulster University, and was in accordance with the
+Helsinki Declaration of 1975, as revised in 2000.
+
+B. Visual Stimuli
+(400 × 400 pixel). These images were taken from “Insurgency:
+Visual stimuli consisted of 596 different grayscale images
+Modern Infantry Combat” (Insurgency Team), a total conver-
+sion modiﬁcation of the video game “Half-Life 2” (Valve cor-
+poration) that is available on Steam. The realistic images were
+separated into target scenes that contained a person (196 im-
+ages) and nontarget scenes that did not contain a person (400
+lution of 1920 × 1080 pixels, and a refresh rate of 60 Hz. The
+images). The images were presented on a screen with a reso-
+images were centered on the screen (visual angle ≈ 20◦
+). Par-
+ticipants were seated comfortably 100 cm from the screen in a
+darkened electromagnetically shielded chamber. Subjects were
+
+222
+
+IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 63, NO. 1, JANUARY 2016
+
+Fig. 1. Experimental task. (A) the subject sees a target in RSVP1, then shifts his attention to RSVP2, (B) the subject sees a target in RSVP2, and conﬁrms
+its
+presence from RSVP1, then shifts his attention back to RSVP1 to detect novel targets. The black frame around the images represents the current stream of images
+that must be observed by the subject. (The ﬁgure depicts a shift of two images, the experiments included a shift of ﬁve images.)
+
+corresponding to a target. The duration of the experiment was
+about 18 min, which corresponds to the presentation of 4320
+images (4032 nontargets, and 288 targets).
+
+D. Signal Acquisition
+
+The data was recorded with an Elekta Neuromag 306-channel
+MEG system at the Intelligent Systems Research Centre, Ulster
+University, Derry/Londonderry, U.K. The signal was recorded
+with a sampling rate of 1 kHz using 204 planar gradiometers and
+102 magnetometers, based on thin-ﬁlm technology. The planar
+gradiometers are mostly sensitive to ﬁelds arising from nearby
+sources, whereas the magnetometers also couple strongly to
+distant sources, and therefore, the system provides accurate in-
+formation of both brain signals and the interference. Five head
+position indicator (HPI) coils were placed on the head to de-
+termine how close the head is to the sensors that are collecting
+the signal. It is worth noting that contrary to EEG recordings,
+where the subject’s preparation can be long, subject’s prepara-
+tion for MEG recordings only takes a few minutes. The signal
+was checked with Brainstorm [34] to determine the level of
+noise in the signal (e.g., eye blinks), and if the analysis can be
+continued further for single-trial classiﬁcation.
+
+E. Temporal and Spatial Filtering
+
+A ﬁrst preprocessing step is the use of the Neuromag software
+Maxﬁlter 2.2 that implements signal-space separation (SSS).
+SSS idealizes magnetic multichannel signals by transforming
+them into device-independent idealized channels representing
+the measured data in uncorrelated form [35]. The method is
+a purely spatial method to transform electromagnetic multi-
+channel signals into uncorrelated basic components. It sepa-
+rates magnetic signals coming from within the brain from those
+coming from outside. This processing step is useful for remov-
+ing noise, particularly using its temporal extension (tSSS), for
+detecting bad channels, for interpolated data after movement
+if continuous HPI was recorded, and for moving the data to a
+standard space that can be analyzed across subjects. After apply-
+ing SSS on the recorded signal, the signal was downsampled to
+125 Hz, and bandpass ﬁltered between 0.1 and 41.66 Hz. A time
+segment of 640 ms (80 time points) was used to capture ERP
+components, such as the P300 and N200, that can appear during
+
+Fig. 2. Dual-RSVP task [the stream of images on the right is identical to the
+stream of images on the left, but it is delayed in time (1250 ms)].
+
+asked to avoid moving during the experiments to avoid muscular
+artifacts.
+
+C. Procedure and Design
+
+Two streams of images were presented on the screen, as de-
+picted in Fig. 2. The stream on the right side of the screen
+(RSVP2) corresponds to the same stream of images presented
+on the left (RSVP1), but delayed by ﬁve images (1250 ms). Each
+participant had to focus his attention on the stream on the left
+side of the screen until a target was presented. Then, the subject
+had to shift their attention to look at the second stream of images
+until the same target was presented. Finally, the subject had to
+shift his attention back to the ﬁrst stream of images. Hence, the
+subject had always to focus only on one stream of images at
+the same time. The goal was to ﬁnd the target on the left side
+on the screen, and conﬁrm the presentation of a target on the
+right side of the screen, with the repetition of the same stimulus
+delayed by 1250 ms. The principle of the experimental task is
+depicted in Fig. 1 with a shift of two images. The dual-RSVP
+task had the following properties: the stimulus onset asynchrony
+was set to 250 ms, i.e., the images were presented at 4 Hz, with
+no interstimulus interval. The target probability was set to about
+6% [33]. The set of images was shufﬂed in such a way that it
+was impossible to see the same image consecutively two times.
+Furthermore, it was not possible to see two consecutive images
+
+CECOTTI: SINGLE-TRIAL DETECTION WITH MEG DURING A DUAL-RSVP TASK
+
+223
+
+the presentation of a stimulus corresponding to the presentation
+of a target.
+The next step consisted of enhancing the relevant signal using
+the xDAWN spatial ﬁltering approach [36], which was also used
+for sensor selection in BMI [37]–[39]. In this method, spatial
+ﬁlters are obtained through the Rayleigh quotient by maximizing
+the signal-to-signal plus noise ratio (SSNR) [40]. The signal
+corresponds to the information contained in the information
+relative to the presentation of a target. The result of this process
+provides Nf spatial ﬁlters that are ranked in terms of their SSNR.
+The enhanced signal X U is composed of three terms: the ERP
+responses on a target class (D1 A1 ), a response common to all
+stimuli, i.e., all targets (images with a person) and nontargets
+(images without a person) confound (D2 A2 ), and the residual
+noise H , that are all ﬁltered spatially with U ,
+
+X U = (D1 A1 + D2 A2 + H )U
+
+(1)
+where {D1 , D2 } ∈ RN t ×N 1 are two Toeplitz matrices, N1 is the
+number of sampling points representing the target and superim-
+posed evoked potentials (640 ms), and H ∈ RN t ×N s . Nt is the
+total number of sampling points in the signal, and Ns is the
+number of sensors. The spatial ﬁlters U maximize the SSNR:
+Tr(U T ˆAT
+
+SSNR(U ) = argmaxU
+
+1 DT
+
+1 D1 ˆA1 U )
+Tr(U T X T X U )
+
+(2)
+
+where ˆA1 represents the least mean-square estimation of A1 :
+
+⎦ = ([D1 ; D2 ]T [D1 ; D2 ])
+
+−1 [D1 ; D2 ]T X (3)
+
+⎡
+
+⎤
+
+ˆA =
+
+⎣ ˆA1
+
+ˆA2
+
+where [D1 ; D2 ] ∈ RN t ×(N 1 + N 2 ) is obtained by concatenation
+of D1 and D2 , and Tr(.) denotes the trace operator.
+
+F. Classiﬁcation
+
+For the classiﬁcation, we consider the two ﬁrst best spatial
+ﬁlters ( Nf = 2). Artiﬁcial trials based on shifted in time exam-
+ples were added for training the classiﬁer [41], [42]. The shifts
+in time correspond to ±32 ms (4 time points), leading to an
+increase of the training database by a factor of 3. For the binary
+classiﬁcation of target versus nontarget images, we have used
+BLDA with a tenfold cross validation procedure (a tenth of the
+database is used for training, the remaining part is used for the
+test). The performance of single-trial classiﬁcation in the sub-
+sequent sections was assessed by the area under the ROC curve
+(AUC) [43]. Single-trial performance is provided for RSVP1
+and RSVP2. In addition, the combination of the scores from
+RSVP1 and RSVP2, Combi, is given as the average classiﬁer
+score from RSVP1 and RSVP2. Speciﬁc spatial ﬁlters and clas-
+siﬁers are trained for RSVP1 and RSVP2, as the characteristics
+of the evoked responses (e.g., the spatial distribution) may be
+different between RSVP1 and RSVP2. In both cases, nontarget
+trials correspond to events where a target is shown on neither
+RSVP1 nor RSVP2. Finally, we evaluate the performance with
+three sets of channels: 1) magnetometers (102 channels), 2)
+gradiometers (204 channels), and 3) all the 306 channels.
+
+Fig. 3. Representation of the grand averaged difference between targets and
+nontarget for both magnetometers (top) and gradiometers (bottom) for a repre-
+sentative subject (Subject 1).
+
+III. RESULTS
+
+A. Evoked Responses
+
+The amplitude ﬂuctuations over time for all the sensors are
+presented in Fig. 3 for both gradiometers and magnetometers.
+The magnetic ﬁeld distribution for ﬁve key time points is de-
+picted in Fig. 4. At 200 ms, it is possible to observe a strong
+activity in the occipital area, while at 300 ms the activity is
+more important in the left parietal region, and is common be-
+tween RSVP1 and RSVP2. Those results are coherent with re-
+sults in the ERP literature with EEG studies [44]. The magnetic
+ﬁeld distributions for RSVP1 and RSVP2 at 100, 200, 400, and
+500 ms indicate different neural origins for RSVP1 and RSVP2.
+
+224
+
+IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 63, NO. 1, JANUARY 2016
+
+Fig. 4. Magnetic ﬁeld distribution corresponding to the difference between targets and nontarget at different time points. ( top: RSVP1, bottom: RSVP2).
+
+Fig. 5. Absolute grand average waveform after spatial ﬁltering for the target on RSVP1 (T1), the target on RSVP2 (T2), and nontarget (NT). From left to r ight,
+it represents the ﬁrst four best spatial ﬁlters obtained by xDAWN.
+
+of RSVP1, RSVP2, and Combi, with the magnetometer chan-
+
+nels, was 0.928 ± 0.047, 0.939 ± 0.051, and 0.972 ± 0.029,
+it was 0.926 ± 0.048,
+AUC was 0.925 ± 0.049, 0.937 ± 0.052, and 0.971 ± 0.030.
+
+0.938 ± 0.051, and 0.971 ± 0.030. With all the channels, the
+respectively. With the gradiometers,
+
+Fig. 6. Evolution of the performance in relation to the number of trials repre-
+senting a target.
+
+The absolute grand average waveform for the ﬁrst four spatial
+ﬁltered signals using the magnetometer channels is depicted in
+Fig. 5. The absolute waveforms are reported because the sign
+of the signals after spatial ﬁltering may change across subjects
+and across the different evaluations through the cross-validation
+procedure. The second component highlights the relevant time
+points related to the difference between the response corre-
+sponding to the presentation of target images versus the response
+of nontarget images.
+
+B. Single-Trial Detection
+
+The performance for single-trial detection is presented for
+each subject and each set of channels in Fig. 8(a)–(c). The AUC
+
+A Friedman’s test showed a difference between the three sets
+of channels. Posthoc analysis with Wilcoxon signed-rank test,
+with a Bonferroni correction, showed a signiﬁcant difference
+for each pairwise comparison (p < 10 e-5). The channels with
+magnetometers offer better performance than with gradiome-
+ters, which is better than using all the channels. Comparison
+of the repeated measures was performed using Friedman’s test
+showing a statistically signiﬁcant difference in performance be-
+tween RSVP1, RSVP2, and Combi, by using the magnome-
+ter channels. Post hoc analysis with Wilcoxon signed-rank test
+was conducted with a Bonferroni correction applied, showing
+that there is no difference of performance between RSVP1,
+RSVP2, and the combination of the score offers a signiﬁcant
+increase of performance (p < 10 e-3). The same pattern of per-
+formance was observed with the other sets of channels. Subse-
+quent analysis are performed with the magnetometer channels
+only. The ROC curves for RSVP1, RSVP2, and Combi are
+presented in Fig. 7.
+The evolution of the AUC for RSVP1, RSVP2, and Combi,
+in relation to the number of trials belonging to the target class is
+depicted in Fig. 6 . The AUC reaches a plateau after 50 trials that
+correspond to a target. With the presentation of only 14 target
+images, the combination of the decisions allows us to reach
+an AUC superior to 0.95, suggesting that this type of system
+
+CECOTTI: SINGLE-TRIAL DETECTION WITH MEG DURING A DUAL-RSVP TASK
+
+225
+
+Fig. 7. ROC curves with magnetometer channels as input signals, RSVP1 (left), RSVP2 (middle), and Combi (right). The bold curve represents an estimation
+of the mean AUC across subjects based on a normal distribution.
+
+can be used with short calibration sessions. Furthermore, there
+exists a signiﬁcant difference between RSVP1 ( 0.900 ± 0.062)
+and RSVP2 (0.921 ± 0.065), (p < 0.05), when there are only
+14 target images during training.
+· ψ where
+The ITR in bits/min (bpm) is deﬁned by ITR = 6 0
+ψ , the ITR, in bits/image, is deﬁned by
+
+T
+
+ψ = ϑ0 − ϑ1
+
+ϑ0 = − N out(cid:6)
+j = 1
+ϑ1 = − N out(cid:6)
+i= 1
+
+p(wj ) · log2 (p(wj ))
+
+N out(cid:6)
+
+j = 1
+
+p(wi ) · p(wj |wi ) · log2 (p(wj |wi ))
+
+(4)
+
+(5)
+
+(6)
+
+where No u t being the number of possible different outputs,
+and T being the time in seconds of recorded MEG signal
+that is required to take the decision among the No u t outputs.
+Due to the constraint of the target probability of 6%, we con-
+sider the Nykopp deﬁnition of the ITR, and No u t = 2 with
+p(wj |wi ) being the element (i, j ) in the confusion matrix of
+p(w1 ) = 0.066 and p(w2 ) = 0.933 are the prior probabilities.
+the classiﬁcation obtained with a threshold set to maximize the
+f-score in the training data set, deﬁned as follows:
+f-score = 2 · precision · recall
+precision + recall
+precision = TP/(TP + FP)
+recall = TP/(TP + FN)
+
+(7)
+
+(9)
+
+(8)
+
+where TP, FP, and FN corresponds to the number of true positive,
+false positive, and false negative decisions. The ITR for the best
+subject reaches 0.349 bits/image, or 83 bits/min.
+
+IV. DISCUSSION
+
+Despite the current requirements for technologies such as
+MEG and fMRI in term of cost and space, it is highly antic-
+ipated that these devices will become portable and smaller in
+a near future, following the same evolution of EEG ampliﬁers.
+For this reason, MEG-based BMI systems stay relevant thanks
+to the quality of the signal obtained by the high time and space
+
+resolution. Whereas the size of the device can be an issue for
+BMI that are used at home for patient rehabilitation, MEG sig-
+nal may signiﬁcantly improve the quality of therapy sessions
+using neurofeedback thanks to the deﬁnition of more precise
+sources. It may be in fact judicious to have shorter sessions
+with a patient using an MEG-based system, than long sessions
+with a portable EEG system. Brain recording devices have been
+mainly used for clinical applications. Yet, BMI can be advan-
+tageously exploited for military applications [45], where the
+performance and accuracy of the decision are main goals. In
+addition, for target-detection systems based on the detection of
+brain responses, the size of the signal recording device may not
+be an issue. With the increasing interest of remote control ap-
+plications such as unmanned aerial vehicle [46], the portability
+of the control device or the combination of the system and its
+user is not the main issue. The user and the system with whom
+the user interacts can be completely separated at different loca-
+tions. BMI with EEG recordings may be portable but with low
+signal quality suffering from various artifacts. In addition, the
+use of an EEG-based BMI system during long sessions can be
+hindered by sweat, electrodes displacement and disconnection,
+and impedance ﬂuctuations due to the conductive gel that dries
+over time. Hence, a better practical solution to integrate BMI
+in applications that can be used remotely, and that stress the
+quality of the results and user comfort at the expense of cost and
+portability, is the use of MEG signals.
+In this study, the images in the RSVP task were realistic im-
+ages with different types of backgrounds, with no control on
+the contrast or brightness. The characters in the images were
+always placed at the ﬁxation point (in the middle of the image),
+but at various angles and positions, and under different shades.
+Because the images for both target and nontarget classes con-
+tained objects that are contextually inconsistent such as cars and
+trees, it can be assumed that the task was more difﬁcult than the
+detection of simpler objects (e.g., geometric shapes) in an empty
+scene. With the high number of channels, the number of trials
+may not have been high enough to train efﬁciently the classiﬁer,
+and to estimate robust spatial ﬁlters. Moreover, the spatial ﬁlters
+were only estimated on a large time segment. The estimation of
+spatial ﬁlters on different time segments that capture different
+ERP components may provide better results.
+
+226
+
+IEEE TRANSACTIONS ON BIOMEDICAL ENGINEERING, VOL. 63, NO. 1, JANUARY 2016
+
+systems for target detection in real-time with unpredictable
+events, where it is not possible to repeat the same stimulus in
+order to increase the reliability of a BMI command because new
+visual stimuli always appear over time and must be processed.
+To apply the proposed approach, a low target probability and a
+high target-to-target interval must be assumed during the exper-
+iment in order to avoid the simultaneous presentation of a target
+on both streams at the same time. Furthermore, the presenta-
+tion of a consecutive target on the two streams of images must
+guarantee a period that will limit the attentional blink effect,
+i.e., a subject often fails to detect a second target occurring in
+succession if it is presented before 500 ms after the ﬁrst one [47].
+While there is only a slight difference of performance between
+RSVP1 and RSVP2, as it depends on the number of target
+images that are used, it suggests that the characteristics of the
+brain responses are different. In fact, the target is completely
+unexpected in RSVP1, and the subject is not able to predict
+when a target will appear. However, in RSVP2, the subject
+can perfectly predict when the target will appear, and also the
+content of the image that will appear. The results indicate that
+the predictability of the target in RSVP2 produces a more stable
+response than in RSVP1. With a large number of trials, the
+classiﬁer is able to cope with this variability; hence, reducing
+the difference of performance with RSVP1 and RSVP2 with
+150 target images.
+
+V. CONCLUSION
+
+For the BMI community, leveraging the interest of BMI for
+healthy people for commercial and/or clinical applications is
+a real challenge. It requires the development of novel tasks
+that can take into account the constraints of the brain-evoked
+responses. Moreover, the improvement should come from ma-
+chine learning, signal processing, and human–computer inter-
+face. We have shown that a dual-RSVP setting can be used in
+parallel for processing targets from multiple image streams by
+assuming a low-target probability. This strategy was successful
+as it allows to combine the decision of two trials to signiﬁcantly
+improve target detection, without repeating two times the whole
+sequence of images. Furthermore, we have shown that it is pos-
+sible to achieve high performance for single-trial detection of
+brain responses corresponding to the presentation of realistic
+images during a rapid serial visualization task with MEG sig-
+nals, and with a limited number of trials during training. The
+performance with magnetometers was overall similar to the per-
+formance using gradiometers. Finally, the results show that only
+102 channels are enough to perform robust single-trial detection
+with MEG. However, further work should be carried out to take
+into account unique brain patterns that may be found with the
+gradiometers.
+
+Fig. 8.
+Single-trial detection for each subject, each classiﬁcation task (RSVP1,
+RSVP2, and Combi), and each set of channels [Magnetometers (102), Gra-
+diometers (204), and all (306)]. The error bars correspond to the standard devi-
+ation. (a) Magnetometers. (b) Gradiometers. (c) All.
+
+The use of two parallel RSVP tasks allowed a signiﬁcant
+improvement of the performance by combining the decision
+corresponding to the presentation of two events with the same
+visual stimulus, without doubling the duration of the experiment.
+This efﬁcient strategy leverages the use of EEG/MEG-based
+
+REFERENCES
+
+[1] J. D. R. Mill ´an et al., “Combining brain–computer interfaces and assistive
+technologies: State-of-the-art and challenges,” Frontiers Neurosci., vol. 4,
+no. 161, pp. 1 –15, 2010.
+[2] R. J. Johnson, “A triarchic model of P300 amplitude,” Psychophysiology,
+vol. 23, no. 4, pp. 367 –84, 1986.
+
+CECOTTI: SINGLE-TRIAL DETECTION WITH MEG DURING A DUAL-RSVP TASK
+
+227
+
+[3] P. Sajda et al., “High-throughput image search via single-trial event de-
+tection in a rapid serial visual presentation task,” in Proc. 1st Int. IEEE
+EMBS Conf. Neural Eng., 2003, pp. 7 –10.
+[4] Y. Huang et al., “A framework for visual image search using single-trial
+brain responses,” Neurocomputing, vol. 74, pp. 2041 –2051, 2011.
+[5] M. C. Potter, “Short-term conceptual memory for pictures,”
+J. Exp. Psy-
+chol.: Human Learning Memory, vol. 2, pp. 509 –522, 1976.
+[6] M. M. Chun and C. M. Potter, “A two-stage model for multiple target
+detection in rapid serial visual presentation,” J. Exp. Psychol. Human
+Perception Performance, vol. 21, no. 1, pp. 109 –127, 1995.
+[7] N. Bigdely-Shamlo et al., “Brain activity-based image classiﬁcation from
+rapid serial visual presentation,”
+IEEE Trans. Neural Syst. Rehab. Eng.,
+vol. 16, no. 5, pp. 432 –441, Oct. 2008.
+[8] A. Gerson et al., “Cortically-coupled computer vision for rapid image
+search,”
+IEEE Trans. Neural Syst. Rehabil. Eng., vol. 14, no. 2, pp. 174 –
+179, Jun. 2006.
+[9] L. C. Parra et al., “Spatio-temporal linear decoding of brain state: Ap-
+plication to performance augmentation in high-throughput tasks,”
+IEEE
+Signal Process. Mag., vol. 25, no. 1, pp. 95 –115, Jan. 2008.
+[10] E. A. Pohlmeyer et al., “Combining computer and human vision into a
+BCI: Can the whole be greater than the sum of its parts?” in Proc. 32nd
+Int. IEEE EMBC Conf., 2010, pp. 138 –41.
+[11] E. A. Pohlmeyer et al., “Closing the loop in cortically-coupled com-
+puter vision: A brain–computer interface for searching image databases,”
+J. Neural Eng., vol. 8, pp. 036025-1 –036025-14, 2011.
+[12] J. Touryan et al., “Real-time measurement of face recognition in rapid
+serial visual representation,” Frontiers Psychol., vol. 2, no. 42, pp. 1 –8,
+2011.
+[13] L. Farwell and E. Donchin, “Talking off the top of your head: Toward
+a mental prosthesis utilizing event-related brain potentials,” Electroen-
+cephalogr. Clin. Neurophysiol., vol. 70, pp. 510 –523, 1988.
+[14] D. Cohen and B. Cufﬁn, “Demonstration of useful differences between the
+magnetoencephalogram and electroencephalogram,” Electroencephalogr.
+Clin. Neurophysiol., vol. 56, pp. 38 –51, 1983.
+[15] M. H ¨am ¨al ¨ainen et al., “Magnetoencephalography: Theory, instrumenta-
+tion, and applications to noninvasive studies of the working human brain,”
+Rev. Mod. Phys., vol. 65, no. 2, pp. 413 –497, Apr. 1993.
+[16] Y. Kamitani and F. Tong, “Decoding the visual and subjective contents of
+the human brain,” Nature Neurosci., vol. 8, no. 5, pp. 679 –685, 2005.
+[17] K. N. Kay et al., “Identifying natural images from human brain activity,”
+Nature, vol. 452, no. 20, pp. 352 –355, 2008.
+[18] J. Wang et al., “Brain state decoding for rapid image retrieval,” in Proc.
+17th ACM Int. Conf. Multimedia, 2009, pp. 945 –954.
+[19] Y. Miyawaki et al., “Visual image reconstruction from human brain ac-
+tivity using a combination of multiscale local image decoders,” Neuron,
+vol. 60, no. 5, pp. 915 –929, 2008.
+[20] J. R. Wolpaw et al., “Brain–computer interfaces for communication and
+control,” Clin. Neurophysiol., vol. 113, pp. 767 –791, 2002.
+[21] B. Hong et al., “N200-speller using motion-onset visual response,” Clin.
+Neurophysiol., vol. 120, pp. 1658 –1666, 2009.
+[22] H. Cecotti and A. Gr ¨aser, “Convolutional neural networks for P300 detec-
+tion with application to brain–computer interfaces,”
+IEEE Trans. Pattern
+Anal. Mach. Intell., vol. 33, no. 3, pp. 433 –445, Mar. 2011.
+[23] H. Cecotti,
+“Spelling with non-invasive brain-computer interfaces—
+Current and future trends, ” J. Physiol., vol. 105, nos. 1 –3, pp. 106 –114,
+2011.
+[24] H. Cecotti, “Toward shift invariant detection of event-related potentials in
+non-invasive brain–computer interface,” Pattern Recognit. Lett., 2015, to
+be published.
+[25] G. Barbati et al., “Optimization of an independent component analysis ap-
+proach for artifact identiﬁcation and removal in magnetoencephalographic
+signals,” Clin. Neurophysiol., vol. 115, pp. 1220 –1232, 2004.
+[26] D. Mantini et al., “Improving MEG source localizations: An automated
+method for complete artifact removal based on independent component
+analysis,” Neuroimage, vol. 40, pp. 160 –173, 2008.
+
+[27] L. Parra et al., “Single trial detection in EEG and MEG: Keeping it linear,”
+Neurocomputing, vol. 52 –54, pp. 177 –183, 2003.
+[28] U. Hoffmann et al., “An efﬁcient P300-based brain-computer interface
+for disabled subjects,” J. Neurosci. Methods, vol. 167, no. 1, pp. 115 –125,
+2008.
+[29] H. Cecotti et al., “Multiclass classiﬁcation of single trial evoked EEG
+responses,” in Proc. 34nd Int. IEEE EMBC, 2012, pp. 1719 –1722.
+[30] A. Rakotomamonjy and V. Guigue, “BCI competition III: Dataset II—
+Ensemble of SVMs for BCI P300 speller,”
+IEEE Trans. Biomed. Eng.,
+vol. 55, no. 3, pp. 1147 –1154, Mar. 2008.
+[31] H. Cecotti, “A time-frequency convolutional neural network for the ofﬂine
+classiﬁcation of steady-state visual evoked potential responses,”
+Pattern
+Recognit. Lett., vol. 32, no. 8, pp. 1145 –1153, 2011.
+[32] H. Cecotti et al., “Single-trial classiﬁcation of event-related potentials in
+rapid serial visual presentation tasks using supervised spatial ﬁltering,”
+IEEE Trans. Neural Netw. Learning Syst., vol. 15, no. 11, pp. 2030 –2042,
+Nov. 2014.
+[33] H. Cecotti et al., “Impact of target probability on single-trial EEG target
+detection in a difﬁcult rapid serial visual presentation task,” in
+Proc. 33nd
+Int. IEEE EMBC, 2011, pp. 6381 –6384.
+[34] F. Tadel et al., “Brainstorm: A user-friendly application for MEG/EEG
+analysis,” Comput. Intell. Neurosci., vol. 2011, no. 879716, pp. 1 –13,
+2011.
+[35] S. Taulu and J. Simola, “Spatiotemporal signal space separation method
+for rejecting nearby interference in meg measurements,” Phys. Med. Biol.,
+vol. 51, pp. 1 –10, 2006.
+[36] B. Rivet et al., “xDAWN algorithm to enhance evoked potentials: Appli-
+cation to brain–computer interface,”
+IEEE Trans Biomed. Eng., vol. 56,
+no. 8, pp. 2035 –2043, Aug. 2009.
+[37] B. Rivet et al., “EEG sensor selection by sparse spatial ﬁltering in P300
+speller brain–computer interface,” in
+Proc. 32nd Int. IEEE Conf. Eng.
+Med. Biol. Soc., 2010, pp. 5379 –5382.
+[38] H. Cecotti et al., “A robust sensor selection method for P300 brain-
+computer interfaces,” J. Neural Eng., vol. 8, pp. 016001-1 –016001-12,
+2011.
+[39] B. Rivet et al., “Impact of spatial ﬁlters during sensor selection in a
+visual P300 brain-computer interface,” Brain Topography, vol. 12, no. 1,
+pp. 55 –63, 2012.
+[40] B. Rivet and A. Souloumiac, “Optimal linear spatial ﬁlters for event-
+related potentials based on a spatio-temporal model: Asymptotical perfor-
+mance analysis,” Signal Process., vol. 93, no. 2, pp. 387 –398, 2013.
+[41] H. Cecotti and B. Rivet, “Improving single-trial detection of event-related
+potentials through artiﬁcial deformed signals,” in
+Proc. 36th Int. IEEE
+Conf. EMBC, 2014, pp. 1 –4.
+[42] H. Cecotti et al., “Optimization of single-trial detection of event-related
+potentials through artiﬁcial trials,”
+IEEE Trans. Biomed. Eng., vol. 62,
+no. 9, pp. 2170 –2176, Sep. 2015.
+[43] T. Fawcett, “An introduction to ROC analysis,”
+vol. 27, pp. 861 –874, 2006.
+[44] J. Polich, “Updating P300: An integrative theory of P3a and P3b,” Clin.
+Neurophysiol., vol. 118, pp. 2128 –2148, 2007.
+[45] R. A. Miranda et al., “DARPA-funded efforts in the development of novel
+brain-computer interface technologies,” J. Neurosci. Methods, vol. 244,
+pp. 52 –67, 2014.
+[46] K. LaFleur et al., “Quadcopter control in three-dimensional space using
+a noninvasive motor imagery-based brain–computer interface,”
+J. Neural
+Eng., vol. 10, pp. 046003-1 –046003-15, 2013.
+[47] J. E. Raymond et al., “Temporary suppression of visual processing in an
+RSVP task: An attentional blink?” J. Exp. Psychol.: Human Perception
+Performance, vol. 18, pp. 849 –860, 1992.
+
+Pattern Recognit. Lett.,
+
+Author photograph and biography not available at the time of publication.
+
+
