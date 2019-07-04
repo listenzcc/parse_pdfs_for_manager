@@ -1,0 +1,195 @@
+r Human Brain Mapping 30:3163–3171 (2009) r
+
+Distributed Representation of Single Touches
+in Somatosensory and Visual Cortex
+
+Michael S. Beauchamp,1* Stephen LaConte,2 and Naﬁ Yasar1,3
+
+1Department of Neurobiology and Anatomy, University of Texas Health Science Center at Houston,
+Houston, Texas
+2Department of Neuroscience, Baylor College of Medicine, Houston, Texas
+3Department of Bioengineering, Rice University, Houston, Texas
+
+Abstract: Multi-voxel pattern analysis (MVPA) was used to analyze blood–oxygen level dependent
+functional magnetic resonance imaging (BOLD fMRI) data, which were acquired as human subjects
+received brief vibrotactile stimulation of their hands and feet. Support vector machines trained and
+tested on the whole brain fMRI data were able to accurately decode the body site of single touches,
+with mean performance of 92% in a two-way discrimination task (chance performance 50%) and 70%
+in a four-way discrimination task (chance performance 25%). Primary and secondary somatosensory
+areas (S1 and S2) alone decoded the touched body site with high accuracy. S1 was more accurate at
+decoding touches closely spaced on the body surface (different ﬁngers of the same hand) whereas S2
+and S1 were equally accurate at decoding widely spaced touches (hand vs. foot). The hand and foot
+regions of S1 (S1hand and S1foot) were separately examined in a two-way classiﬁcation task. S1hand
+was better able to decode the hand of stimulation (left vs. right), and S1foot was better able to decode
+the foot of stimulation. In addition to S1 and S2, vibrotactile responses were observed in a region of
+visual cortex, areas MST and STP (MST/STP) in lateral occipito-temporal lobe. MST/STP was able to
+accurately decode the hand but not the foot of stimulation, supporting the idea of a role for MST/STP
+in eye-hand coordination. Hum Brain Mapp 30:3163–3171, 2009.
+
+VVC 2009 Wiley-Liss, Inc.
+
+Key words: touch; somatosensory; multi-voxel pattern analysis
+
+INTRODUCTION
+
+Traditional neuroimaging analyses use
+information
+about the sensory stimulus or behavioral state of the sub-
+ject to calculate a measure of activation in a single brain
+voxel at a time. Recently, techniques have been developed
+
+Contract grant sponsor: NSF; Contract grant number: 0642801;
+Contract grant sponsor: NIH; Contract grant number: S10 RR19186.
+*Correspondence to: Michael S. Beauchamp, Ph.D., 6431 Fannin St
+Suite G.550, Houston, Texas 77030.
+E-mail: Michael.S.Beauchamp@uth.tmc.edu
+Received for publication 29 September 2008; Revised 17 December
+2008; Accepted 18 December 2008
+DOI: 10.1002/hbm.20735
+Published online 13 February 2009 in Wiley InterScience (www.
+interscience.wiley.com).
+
+VVC 2009 Wiley-Liss, Inc.
+
+to measure distributed patterns of activity across the brain,
+referred to as multi-voxel pattern analysis
+(MVPA)
+(Norman et al., 2006). With MVPA, the traditional analysis
+is reversed and measurements of brain activity are used to
+decode the sensory stimulus presented to the subject or
+the mental or behavioral state of the subject (Cox and
+Savoy, 2003; Haynes and Rees, 2006; Kamitani and Tong,
+2005; Kriegeskorte et al., 2006; LaConte et al., 2005).
+Most distributed pattern analysis studies have focused
+on decoding visually-presented stimuli. Visual cortex is
+anatomically the largest of the early sensory cortices, and
+even simple visual stimuli evoke activity in many visual
+areas (Grill-Spector and Malach, 2004). This distributed
+representation makes visual cortex an ideal laboratory for
+MVPA, because it provides many active voxels across
+which to pool information. However, it raises the ques-
+tion of whether other sensory modalities whose cortical
+
+r Beauchamp et al. r
+
+representations are smaller or less distributed than visual
+cortex are amenable to MVPA. We performed two experi-
+ments to investigate whether MVPA could be used to
+decode individual stimuli presented in a different sensory
+modality, namely the somatosensory system.
+In both experiments, a simple vibrotactile somatosensory
+stimulus (touch) was delivered to different locations on the
+body surface. In the ﬁrst experiment, widely separated
+touches were delivered to the left or right hand or foot of
+the subject.
+In the second experiment, closely spaced
+touches were delivered to three ﬁngers on the right hand
+and to the right
+foot. Our analyses focused on three
+regions of the somatosensory network: primary somatosen-
+sory cortex (S1), secondary somatosensory cortex (S2), and
+a region of lateral occipital-temporal cortex, MST/STP, that
+has traditionally been labeled as visual association cortex
+but also responds to touch (Beauchamp et al., 2007; 2008;
+Blake et al., 2004; Hagen et al., 2002; Ricciardi et al., 2007).
+Most MVPA studies have used blocked designs,
+in
+which stimuli from the same category are grouped. Block
+designs are problematic in the somatosensory system,
+where adaptation is pronounced both peripherally and
+centrally (Leung et al., 2005; Tommerdahl et al., 2005).
+Rapid event-related designs are an efﬁcient way to present
+many different stimuli while minimizing adaptation. We
+developed a simple technique to analyze single trials of
+somatosensory stimulation presented in a rapid event-
+related design using support vector machines (SVMs), a
+supervised learning method that performs efﬁciently at
+high-dimensional classiﬁcation tasks like those found in
+fMRI (Cox and Savoy, 2003; LaConte et al., 2005).
+
+METHODS
+
+Subjects were recruited and informed consent was
+obtained in accordance with the University of Texas Com-
+mittee for the Protection of Human Subjects. Subjects were
+scanned using a 3 tesla whole-body MR scanner (Phillips
+Medical Systems, Bothell, WA). Seven subjects participated
+in experiment 1, and eight subjects participated in experi-
+ment 2. In both experiments, vibrotactile somatosensory
+stimuli were delivered by ﬁve piezoelectric benders. In
+experiment 1, the ﬁve benders were attached to the left
+palm, the right palm, the sole of the left foot, the sole of the
+right foot, and the right hip (Fig. 1A). In experiment 2, the
+benders were attached to the thumb (D1), the third (middle)
+ﬁnger (D3), and the ﬁfth (pinky) ﬁnger (D5) of the right
+hand (adjacent ﬁngers were not stimulated because of me-
+chanical constraints introduced by the benders); the right
+foot; and the right hip (Fig. 1B). A similar rapid event-
+related design was used for both experiments (Fig. 1C).
+Each 5-min scan series contained 150 two-second trials (cor-
+responding to the MRI repetition time, TR, of 2 sec) with
+10 hip target trials, 40 ﬁxation baseline trials with no soma-
+tosensory stimulus, and 25 of each of the other four benders.
+Trial ordering was counter-balanced so that each trial type
+
+was equally likely to be preceded by any other trial type,
+and experimental power was maximized by jittering (ran-
+domizing) the interval between two trials of the same type
+(Dale, 1999). Six scan series were collected from each subject.
+There was no task during hand or foot stimulation, other
+than to maintain visual ﬁxation on central crosshairs. Dur-
+ing hip stimulation trials, subjects were required to make an
+eye movement to a visually presented target. This ensured
+that subjects remained alert and attentive throughout the
+experiment. Because hip trials were analyzed separately
+(and not used for the classiﬁcation analysis) any brain activ-
+ity related to the eye movement responses could not contrib-
+ute to classiﬁcation performance.
+A ﬁnite impulse response model was used to ﬁt the MR
+time series in the context of the general linear model using
+the AFNI program 3dDeconvolve (Cox, 1996). The average
+response to each trial type in each voxel was determined
+with nine individual tent functions that modeled the entire
+BOLD response from 0 to 16 sec post-stimulus, accounting
+for overlapping responses from consecutive trials without
+any assumptions about the shape of the hemodynamic
+response (Glover, 1999). An F-test was used to ﬁnd active
+voxels, deﬁned as those in which the tent functions for the
+hand and foot stimulation trials accounted for a signiﬁcant
+26) of the variance.
+fraction (P < 10
+
+Classiﬁer Training and Testing
+
+Separate classiﬁers, as implemented in SVMlight (Joa-
+chims, 1999) were constructed for each subject using the
+3dsvm command in AFNI. Complementary analyses with
+a different package, LibSVM (Chang and Lin, 2001), gave
+very similar results. Within each subject, the SVM was
+trained using one set of data from the subject. Then, the
+SVM was tested on additional data not used for training.
+The input to the SVM consisted of a matrix of pattern
+vectors, Xy,i. X had N rows corresponding to the number
+of active voxels, with y corresponding to the trial type and
+i corresponding to the trial index of that trial type. Because
+the feature dimension N was high, a linear kernel was
+used to lower the computation time (LaConte et al., 2005;
+2007). Separate classiﬁers were constructed for each pair of
+stimuli and combined using a decision directed acyclic
+graph (Platt et al., 2000).
+In each subject, six scan series were collected, each con-
+taining a random sequence of somatosensory stimuli. This
+allowed the use of leave-one-out cross-validation to assess
+classiﬁcation performance. Within each subject, six differ-
+ent SVMs were constructed, each trained on a different set
+of ﬁve scan series collected from the subject. Then, each
+SVM was tested on the single left-out scan series not used
+for training. Arranging the samples in this way avoids
+splitting samples from one run into both training and test
+sets which may be problematic due to dependency among
+successive samples within each run (Haxby et al., 2001).
+Because the BOLD response to brief somatosensory stimu-
+lation was relatively punctate (Fig. 6A), to estimate the
+
+r 3164 r
+

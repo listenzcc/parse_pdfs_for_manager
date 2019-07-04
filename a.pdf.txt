@@ -1,0 +1,177 @@
+See discussions, stats, and author profiles for this publication at : https://www .researchgate.net/publication/234134009
+
+Multimodal functional imaging of motor imagery using a novel paradigm
+
+Article  in  NeuroImage · May 2013
+
+DOI: 10.1016/
+
+j.neuroimage.2013.01.001
+
+ · Source: PubMed
+
+CITATIONS
+
+58
+
+8 author s, including:
+
+Hana Burianová
+Swansea University
+
+47
+
+ PUBLICATIONS   1,060
+
+ CITATIONS   
+
+SEE PROFILE
+
+Graciela Tesan
+Macquarie University
+
+14
+
+ PUBLICATIONS   164
+
+ CITATIONS   
+
+SEE PROFILE
+
+READS
+
+148
+
+Paul F Sowman
+Macquarie University
+
+85
+
+ PUBLICATIONS   578
+
+ CITATIONS   
+
+SEE PROFILE
+
+Anina N Rich
+Macquarie University
+
+79
+
+ PUBLICATIONS   1,701
+
+ CITATIONS   
+
+SEE PROFILE
+
+Some of the authors of this publication are also working on these related projects:
+
+Non-hierarchical Influence of Visual Form, Touch, and Position Cues on Embodiment, Agency, and Presence in Virtual Reality View project
+
+Visuomotor adaptation in complex task envirobnments View project
+
+All content following this page was uploaded by Hana Burianová on 17 May 2014.
+
+The user has requested enhancement of the downloaded file.
+
+NeuroImage 71 (2013) 50–58
+
+Contents lists available at SciVerse ScienceDirect
+
+NeuroImage
+
+j o u r n a l h o m e p a g e : w w w . e l s e v i e r . c o m / l o c a t e / y n i m g
+
+Multimodal functional imaging of motor imagery using a novel paradigm
+
+Hana Burianová a, b,⁎, Lars Marstaller a, b, Paul Sowman a, b, Graciela Tesan a, b, Anina N. Rich a, b,
+Mark Williams a, b, Greg Savage a, c, Blake W. Johnson a
+
+a ARC Centre of Excellence in Cognition and its Disorders, Macquarie University, Sydney, Australia
+b Department of Cognitive Science, Macquarie University, Sydney, Australia
+c Department of Psychology, Macquarie University, Sydney, Australia
+
+a r t i c l e
+
+i n f o
+
+a b s t r a c t
+
+Article history:
+Accepted 5 January 2013
+Available online 12 January 2013
+
+Keywords:
+Motor imagery
+Motor execution
+fMRI
+MEG
+
+Neuroimaging studies have shown that the neural mechanisms of motor imagery (MI) overlap substantially with
+the mechanisms of motor execution (ME). Surprisingly, however, the role of several regions of the motor circuit-
+ry in MI remains controversial, a variability that may be due to differences in neuroimaging techniques, MI train-
+ing, instruction types, or tasks used to evoke MI. The objectives of this study were twofold: (i) to design a novel
+task that reliably invokes MI, provides a reliable behavioral measure of MI performance, and is transferable across
+imaging modalities; and (ii) to measure the common and differential activations for MI and ME with functional
+magnetic resonance imaging (fMRI) and magnetoencephalography (MEG). We present a task in which it is dif-
+ﬁcult to give accurate responses without the use of either motor execution or motor imagery. The behavioral
+results demonstrate that participants performed similarly on the task when they imagined vs. executed move-
+ments and this performance did not change over time. The fMRI results show a spatial overlap of MI and ME
+in a number of motor and premotor areas, sensory cortices, cerebellum, inferior frontal gyrus, and ventrolateral
+thalamus. MI uniquely engaged bilateral occipital areas, left parahippocampus, and other temporal and frontal
+areas, whereas ME yielded unique activity in motor and sensory areas, cerebellum, precuneus, and putamen.
+The MEG results show a robust event-related beta band desynchronization in the proximity of primary motor
+and premotor cortices during both ME and MI. Together, these results further elucidate the neural circuitry of
+MI and show that our task robustly and reliably invokes motor imagery, and thus may prove useful for interro-
+gating the functional status of the motor circuitry in patients with motor disorders.
+© 2013 Elsevier Inc. All rights reserved.
+
+Introduction
+
+Motor imagery (MI) is an internal rehearsal of simple or complex
+motor movements without overt physical action (Annett, 1995;
+Jeannerod, 1995; Porro et al., 1996). Although difﬁcult to describe
+verbally, MI involves kinesthetic and visual imagery and is character-
+ized by vivid mental representations of movement execution from a
+ﬁrst-person perspective (Munzert et al., 2009; Porro et al., 1996).
+Motor imagery plays a critical role in motor skill learning and sports
+training (Brouziyne and Molinaro, 2005; Murphy, 1994), as well as
+in prosthesis control (Hochberg et al., 2006) and motor rehabilitation
+in patients with motor disorders (Dijkerman et al., 2004; Kimberley
+et al., 2006; Sharma et al., 2006). Such ample clinical and neurophys-
+iological applications of MI emphasize the necessity for deeper under-
+standing of the neural mechanisms engaged in motor imagery.
+The last two decades have yielded a number of imaging studies in-
+vestigating the neural correlates of motor execution (ME) and MI, as
+well as their functional overlap, using various techniques, such as
+
+⁎ Corresponding author at: Centre of Cognition and its Disorders, Macquarie University,
+C5C, Level 4, Sydney, NSW, 2109, Australia.
+E-mail address: hana.burianova@mq.edu.au (H. Burianová).
+
+1053-8119/$ – see front matter © 2013 Elsevier Inc. All rights reserved.
+http://dx.doi.org/10.1016/j.neuroimage.2013.01.001
+
+positron emission tomography (PET; e.g., Decety et al., 1994; Naito et
+al., 2002; Roland et al., 1980; Stephan et al., 1995), electroencephalogra-
+phy (EEG; e.g., Beisteiner et al., 1995; Rodriguez et al., 2004; Thayer and
+Johnson, 2006), functional magnetic resonance imaging (fMRI; e.g.,
+2Lotze et al., 1999; Porro et al., 1996; Roth et al., 1996), and magnetoen-
+cephalography (MEG; e.g., Lang et al., 1996; Nagakawa et al., 2011;
+Schnitzler et al., 1997). Convergent evidence shows that during ME
+the motor and premotor cortices, i.e., the primary motor cortex (M1),
+supplementary motor area (SMA), pre-supplementary motor area
+(pre-SMA), and ventral and dorsal premotor cortices (vPMC and
+dPMC, respectively) are modulated by the cerebello-thalamo-cortical
+loop. Other essential ME areas include the basal ganglia, primary so-
+matosensory cortex (S1), and posterior parietal cortex—speciﬁcally,
+the superior and inferior parietal lobules (SPL and IPL, respectively).
+Some studies report that the neural correlates of MI substantially
+overlap with those subserving ME (Jeannerod, 2001; Lotze and
+Halsband, 2006), especially within the neural circuits involved in the
+early stages of motor control (i.e., motor planning). These circuits in-
+clude the supplementary motor area, premotor areas, and posterior pa-
+rietal cortex. In light of these ﬁndings, Jeannerod (2001) proposed that
+ME and MI are functionally equivalent in that the neural processes are
+shared but in MI overt production of movement is inhibited. However,
+
