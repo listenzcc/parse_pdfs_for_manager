@@ -110,7 +110,7 @@ def pdf2text(pdf_file):
     return (content)
 
 
-pdf_dir = 'C:\\Users\\liste\\OneDrive\\Documents\\schorlar'
+pdf_dir = 'C:\\Users\\zcc\\OneDrive\\Documents\\schorlar'
 for fname in os.listdir(pdf_dir):
     # for fname in ['07264993.pdf']:
     if fname.endswith('.pdf'):
