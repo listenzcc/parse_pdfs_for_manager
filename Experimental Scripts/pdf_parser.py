@@ -109,8 +109,8 @@ def pdf2text(pdf_file):
     retstr.close()
     return (content)
 
+pdf_dir = os.path.join(os.environ.get('ONEDRIVE'), 'documents', 'schorlar')
 
-pdf_dir = 'C:\\Users\\zcc\\OneDrive\\Documents\\schorlar'
 for fname in os.listdir(pdf_dir):
     # for fname in ['07264993.pdf']:
     if fname.endswith('.pdf'):

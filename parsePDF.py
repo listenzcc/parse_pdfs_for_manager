@@ -28,6 +28,7 @@ class PdfParser():
         print(self.context)
 
     def parse_pdf(self):
+        # !!! The function may be wrong.
         with open(self.path, 'rb') as fp:
             praser = PDFParser(fp)
             praser.set_document(doc)
@@ -41,15 +42,16 @@ class PdfParser():
             layout = device.get_result()
             interpreter = PDFPageInterpreter(rsrcmgr, device)
 
-            page = doc.get_pages()[0]
+            # !!! doc.get_pages returns a generator instead of a iterable object.
+            pages = doc.get_pages()
+            page = pages[0]
             interpreter.process_page(page)
             for x in layout:
                 if not isinstance(x, LTTextBoxHorizontal):
                     continue
                 self.context.append(x.get_text())
 
-
-target_dir = 'C:\\Users\\zcc\\OneDrive\\Documents\\schorlar'
+target_dir = os.path.join(os.environ.get('ONEDRIVE'), 'documents', 'schorlar')
 
 pdf_path = [os.path.join(target_dir, f)
             for f in os.listdir(target_dir) if f.endswith('.pdf')]
